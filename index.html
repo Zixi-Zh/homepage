@@ -1,0 +1,140 @@
+<?php get_header(); ?>
+
+<main>
+    <!-- 404 Hero -->
+    <section class="gradient-bg text-white py-20 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="relative z-10">
+            <div class="text-8xl font-bold mb-4 opacity-50">404</div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+                Page Not Found
+            </h1>
+            <p class="max-w-3xl mx-auto text-xl opacity-90 leading-relaxed">
+                Oops! The page you're looking for seems to have wandered off.
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 py-16">
+        <div class="bg-white rounded-2xl card-shadow p-12 text-center">
+            <!-- Error Message -->
+            <div class="mb-8">
+                <div class="text-6xl mb-4">🤔</div>
+                <h2 class="text-3xl font-bold mb-4 text-gray-800">Don't worry, even the best explorers sometimes take a wrong turn.</h2>
+                <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Let's get you back on track with some helpful options below.
+                </p>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <a href="<?php echo esc_url(home_url('/')); ?>" 
+                   class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all transform hover:scale-105 font-semibold">
+                    🏠 Go Home
+                </a>
+                <button onclick="history.back()" 
+                        class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl hover:bg-gray-300 transition-colors font-semibold">
+                    ← Go Back
+                </button>
+                <a href="<?php echo esc_url(home_url('/blog')); ?>" 
+                   class="bg-white border border-indigo-600 text-indigo-600 px-8 py-3 rounded-xl hover:bg-indigo-50 transition-colors font-semibold">
+                    📝 View Blog
+                </a>
+            </div>
+            
+            <!-- Search -->
+            <div class="max-w-md mx-auto mb-12">
+                <h3 class="text-lg font-semibold mb-4 text-gray-900">Search for what you need:</h3>
+                <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>" class="flex gap-2">
+                    <input type="search" 
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" 
+                           placeholder="Search..." 
+                           name="s" />
+                    <button type="submit" 
+                            class="bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Helpful Links -->
+            <div class="grid md:grid-cols-3 gap-6 text-left">
+                <!-- Popular Pages -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                        <span class="text-2xl mr-2">📄</span>
+                        Popular Pages
+                    </h3>
+                    <ul class="space-y-2">
+                        <?php
+                        $pages = get_pages(array('number' => 5, 'sort_column' => 'menu_order'));
+                        foreach($pages as $page) :
+                        ?>
+                            <li>
+                                <a href="<?php echo get_permalink($page->ID); ?>" class="text-gray-700 hover:text-indigo-600 transition-colors block py-1">
+                                    <?php echo $page->post_title; ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                
+                <!-- Recent Posts -->
+                <div class="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                        <span class="text-2xl mr-2">📝</span>
+                        Recent Posts
+                    </h3>
+                    <ul class="space-y-2">
+                        <?php
+                        $recent_posts = wp_get_recent_posts(array(
+                            'numberposts' => 5,
+                            'post_status' => 'publish'
+                        ));
+                        foreach($recent_posts as $post) :
+                        ?>
+                            <li>
+                                <a href="<?php echo get_permalink($post['ID']); ?>" class="text-gray-700 hover:text-indigo-600 transition-colors block py-1">
+                                    <?php echo wp_trim_words($post['post_title'], 6, '...'); ?>
+                                </a>
+                            </li>
+                        <?php endforeach; wp_reset_query(); ?>
+                    </ul>
+                </div>
+                
+                <!-- Need Help -->
+                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 flex items-center">
+                        <span class="text-2xl mr-2">🤝</span>
+                        Need Help?
+                    </h3>
+                    <div class="space-y-3 text-gray-700">
+                        <p class="text-sm">Can't find what you're looking for? We're here to help!</p>
+                        <div class="space-y-2">
+                            <a href="mailto:info@companionconnect.com" class="block text-indigo-600 hover:text-purple-600 transition-colors text-sm">
+                                📧 Contact Us
+                            </a>
+                            <a href="<?php echo esc_url(home_url('/about')); ?>" class="block text-indigo-600 hover:text-purple-600 transition-colors text-sm">
+                                ℹ️ About Us
+                            </a>
+                            <a href="<?php echo esc_url(home_url('/volunteer')); ?>" class="block text-indigo-600 hover:text-purple-600 transition-colors text-sm">
+                                🤝 Get Involved
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fun Message -->
+            <div class="mt-12 pt-8 border-t border-gray-200">
+                <p class="text-gray-500 text-sm">
+                    💡 <strong>Pro tip:</strong> Use the search box above or try browsing our recent posts to find what you're looking for.
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<?php get_footer(); ?>
